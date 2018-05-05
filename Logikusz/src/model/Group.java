@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ public class Group implements Serializable{
 	private int groupId;
 	
 	@OneToMany(mappedBy="group")
-	private List<Student> students;
+	private List<Student> students = new LinkedList<>();
 	
 	@ManyToOne
 	@JoinColumn(name="user_name")

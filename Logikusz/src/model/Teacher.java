@@ -1,14 +1,23 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Teacher implements Serializable{
+	
+	public static final String TEACHER_ROLE = "TEACHER";
+	public static final String DIRECTOR_ROLE = "DIRECTOR";
 	
 	private static final long serialVersionUID = -7383591971998361292L;
 
@@ -19,10 +28,15 @@ public class Teacher implements Serializable{
 	
 	private String password;
 	
-	private String role;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<String> roles = new HashSet<>();
 	
 	@OneToMany(mappedBy="teacher")
-	private List<Group> groups;
+	private List<Group> groups = new LinkedList<>();
+	
+	public Teacher() {
+		roles.add(TEACHER_ROLE);
+	}
 
 	@Override
 	public int hashCode() {
@@ -30,7 +44,7 @@ public class Teacher implements Serializable{
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
@@ -54,10 +68,10 @@ public class Teacher implements Serializable{
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (role == null) {
-			if (other.role != null)
+		if (roles == null) {
+			if (other.roles != null)
 				return false;
-		} else if (!role.equals(other.role))
+		} else if (!roles.equals(other.roles))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)
@@ -91,12 +105,12 @@ public class Teacher implements Serializable{
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public Set<String> getRoles() {
+		return Collections.unmodifiableSet(roles);
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
 	}
 
 	public List<Group> getGroups() {
@@ -110,5 +124,21 @@ public class Teacher implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public boolean isDirector() {
+		return roles.contains(DIRECTOR_ROLE);
+	}
 
+	public boolean hasRole(String role) {
+		return roles.contains(role);
+	}
+
+	public void addRole(String role) {
+		roles.add(role);
+	}
+
+	public void removeRole(String role) {
+		roles.remove(role);
+	}
+	
 }
