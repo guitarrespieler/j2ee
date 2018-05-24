@@ -7,9 +7,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.inject.Named;
 
-import dao.GroupFacade;
-import dao.StudentFacade;
-import dao.TeacherFacade;
+import dal.GroupFacade;
+import dal.StudentFacade;
+import dal.TeacherFacade;
 import model.Student;
 import model.Teacher;
 

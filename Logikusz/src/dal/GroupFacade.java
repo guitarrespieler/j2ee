@@ -1,4 +1,4 @@
-package dao;
+package dal;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
